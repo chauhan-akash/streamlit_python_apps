@@ -17,7 +17,7 @@ st.markdown(" This application is a Streamlit dashboard to analyze the sentiment
 
 st.sidebar.title("Controls for interacting with charts")
 
-@st.cache(persist=True)
+@st.cache_data(persist=True)
 def load_data():
     data = pd.read_csv("./data/Tweets_v1.csv")
     data['tweet_created'] = pd.to_datetime(data['tweet_created'])
@@ -70,7 +70,7 @@ hour = st.sidebar.slider("Pick hour of the day", 0, 23)
 
 rel_data = data[data['tweet_created'].dt.hour==hour]
 
-if not st.sidebar.checkbox("Close", True, key=1):
+if not st.sidebar.checkbox("Close", True):
     st.subheader("3. Tweet location by time of the day")
     st.markdown("%i tweets between %i:00 and %i:00" % (rel_data.shape[0], hour, hour+1))
     st.map(rel_data)
@@ -103,7 +103,7 @@ st.sidebar.header("5. Word Cloud")
 
 word_sentiment = st.sidebar.radio("What sentiment?", list(data['airline_sentiment'].unique()))
 
-if not st.sidebar.checkbox("close", True, key='3'):
+if not st.sidebar.checkbox("close", True):
     st.subheader("5. Word cloud for sentiment %s" %(word_sentiment))
     words = ' '.join(data[data['airline_sentiment'] == word_sentiment]['text'])
     processed_words = ' '.join(word for word in words.split() if 'http' not in word 
