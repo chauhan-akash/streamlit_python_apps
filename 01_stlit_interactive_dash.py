@@ -109,8 +109,9 @@ if not st.sidebar.checkbox("close", True):
     processed_words = ' '.join(word for word in words.split() if 'http' not in word 
                                and not word.startswith('@') and word != 'RT')
     wc = WordCloud(stopwords=STOPWORDS, background_color='white', height=500, width=800).generate(processed_words)
-    plt.imshow(wc)
-    plt.xticks([])
-    plt.yticks([])
-    st.pyplot()
+
+    fig_wc, ax = plt.subplots()
+    ax.imshow(wc, interpolation='bilinear')
+    ax.axis('off')
+    st.pyplot(fig_wc)
     
